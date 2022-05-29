@@ -1,0 +1,43 @@
+@startuml
+
+entity User {
+    + id [PK]
+    ---
+    user_id(表示用)
+    user_name
+    email
+    country
+    birthday
+    deleted
+    created_at
+    updated_at
+}
+
+entity UserProfile {
+    + id [PK]
+    ---
+    # user_id [FK]
+}
+
+entity Setting {
+    + id [PK]
+    ---
+    # user_id [FK]
+    is_notify
+}
+
+entity Post {
+    + id [PK]
+    ---
+    # user_id [FK]
+}
+
+entity PostDetail {
+    + id [PK]
+    ---
+    # post_id [FK]
+}
+
+
+
+@enduml
