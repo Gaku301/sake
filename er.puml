@@ -8,6 +8,7 @@ entity User {
     email
     country
     birthday
+    instagram_id
     deleted
     created_at
     updated_at
@@ -17,6 +18,8 @@ entity UserProfile {
     + id [PK]
     ---
     # user_id [FK]
+    created_at
+    updated_at
 }
 
 entity Setting {
@@ -24,20 +27,46 @@ entity Setting {
     ---
     # user_id [FK]
     is_notify
+    created_at
+    updated_at
 }
 
 entity Post {
     + id [PK]
     ---
     # user_id [FK]
+    # sake_id [FK]
+    content
+    image
+    cerated_at
+    updated_at
 }
 
-entity PostDetail {
+entity Comment {
     + id [PK]
     ---
     # post_id [FK]
+    # user_id [FK]
+    created_at
+    updated_at
 }
 
+entity Sake {
+    + id [PK]
+    ---
+    sake_name
+    kuramoto
+    prefecture
+    image
+    created_at
+    updated_at
+}
+
+entity SakeDetail {
+    + id [PK]
+    ---
+    # sake_id [FK]
+}
 
 
 @enduml
