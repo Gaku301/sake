@@ -47,6 +47,7 @@ entity Comment {
     ---
     # post_id [FK]
     # user_id [FK]
+    content
     created_at
     updated_at
 }
