@@ -8,7 +8,7 @@ import { Card, Image } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 Ionicons.loadFont(); // Ioniconsを読み込む時にエラーが出ないように
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
   const user_name = [
     {id: 1, name:'Asan'},
     {id: 2, name:'Bsan'},
@@ -37,7 +37,9 @@ const HomeScreen = ({navigation}) => {
                 paddingBottom: 10,
                 paddingHorizontal: 5,
               }}
-              onPress={() => navigation.navigate('Profile')}
+              onPress={() => navigation.navigate('Profile', {
+                user: user,
+              })}
             >
               <Ionicons name="person-circle-outline" size={35} />
               <Text style={{marginLeft: 10}}>This is {user.name}</Text>

@@ -6,9 +6,12 @@ import React from 'react';
 import ProfileComponent from '../components/ProfileComponent';
 
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ route }) => {
+  // 選択されたユーザー情報
+  const user = route.params.user ?? {};
+
   return (
-    <ProfileComponent />
+    <ProfileComponent user={user}/>
   );
 };
 

@@ -54,6 +54,7 @@ const HomeTab = () => {
   );
 };
 
+// Routing
 const App = () => {
   return (
     <NavigationContainer>
