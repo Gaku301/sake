@@ -25,32 +25,10 @@ const Stack = createNativeStackNavigator();
 // Tab Navigation
 const HomeTab = () => {
   return (
-    <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
-          if (route.name === 'Home') {
-            // homeの時
-            iconName = focused ? 'ios-home' : 'ios-home-outline';
-          } else if (route.name === 'Settings') {
-            // 設定の時
-            iconName = focused ? 'ios-settings' : 'ios-settings-outline';
-          } else if (route.name === 'User') {
-            // プロフィール
-            iconName = focused ? 'person-circle' : 'person-circle-outline';
-          } else if (route.name === 'Search') {
-            // 検索
-            iconName = focused ? 'search' : 'search-outline';
-          }
-          return <Ionicons name={iconName} size={size} color={color} />;
-        }
-      })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen}/>
-      <Tab.Screen name="Search" component={SettingScreen} />
-      <Tab.Screen name="User" component={UserScreen} />
-      <Tab.Screen name="Settings" component={SettingScreen} />
-    </Tab.Navigator>
+    <Stack.Navigator>
+      <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
   );
 };
 
@@ -58,10 +36,32 @@ const HomeTab = () => {
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="HomeTabs" component={HomeTab} options={{ headerShown: false}}/>
-        <Stack.Screen name="Profile" component={ProfileScreen}/>
-      </Stack.Navigator>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            let iconName;
+            if (route.name === 'HomeTab') {
+              // homeの時
+              iconName = focused ? 'ios-home' : 'ios-home-outline';
+            } else if (route.name === 'SettingsTab') {
+              // 設定の時
+              iconName = focused ? 'ios-settings' : 'ios-settings-outline';
+            } else if (route.name === 'UserTab') {
+              // プロフィール
+              iconName = focused ? 'person-circle' : 'person-circle-outline';
+            } else if (route.name === 'SearchTab') {
+              // 検索
+              iconName = focused ? 'search' : 'search-outline';
+            }
+            return <Ionicons name={iconName} size={size} color={color} />;
+          }
+        })}
+      >
+        <Tab.Screen name="HomeTab" component={HomeTab}/>
+        <Tab.Screen name="SearchTab" component={SettingScreen} />
+        <Tab.Screen name="UserTab" component={UserScreen} />
+        <Tab.Screen name="SettingsTab" component={SettingScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 };
