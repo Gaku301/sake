@@ -14,6 +14,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import HomeScreen from './HomeScreen';
+import SearchScreen from './SearchScreen';
 import SettingScreen from './SettingScreen';
 import ProfileScreen from './ProfileScreen';
 import UserScreen from './UserScreen';
@@ -58,7 +59,7 @@ const App = () => {
         })}
       >
         <Tab.Screen name="HomeTab" component={HomeTab}/>
-        <Tab.Screen name="SearchTab" component={SettingScreen} />
+        <Tab.Screen name="SearchTab" component={SearchScreen} />
         <Tab.Screen name="UserTab" component={UserScreen} />
         <Tab.Screen name="SettingsTab" component={SettingScreen} />
       </Tab.Navigator>

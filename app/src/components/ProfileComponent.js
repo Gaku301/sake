@@ -3,15 +3,37 @@
  */
 
 import React from 'react';
-import { View, Text, useWindowDimensions, ScrollViewComponent, ScrollView, Dimensions } from 'react-native';
+import { View, Text, useWindowDimensions, Dimensions, Image, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
 const FirstRoute = () => {
+  const windowWidth = Dimensions.get('window').width;
+  const imageWidth = Math.floor(windowWidth / 3);
+  const data = [
+    {width: imageWidth, color: 'black'},
+    {width: imageWidth, color: 'white'},
+    {width: imageWidth, color: 'black'},
+    {width: imageWidth, color: 'white'},
+    {width: imageWidth, color: 'white'},
+    {width: imageWidth, color: 'white'},
+    {width: imageWidth, color: 'white'},
+    {width: imageWidth, color: 'white'},
+    {width: imageWidth, color: 'white'},
+  ];
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{fontSize: 20, fontWeight: 'bold'}}>This is First</Text>
-      <Text>First</Text>
+    <View>
+      <FlatList
+        data={data}
+        numColumns={3}
+        style={{minHeight: 600}}
+        // Itemをrenderingする
+        renderItem={() => {
+            return <Image style={{width: imageWidth, height: imageWidth, backgroundColor: 'white', borderColor: 'black', borderWidth:0.5}} />
+          }
+        }
+      />
     </View>
   );
 };
@@ -25,13 +47,50 @@ const SecondRoute = () => {
 };
 
 const ThirdRoute = () => {
+  const windowWidth = Dimensions.get('window').width;
+  const data = [
+    {id: 1},
+    {id: 2},
+    {id: 3},
+    {id: 4},
+    {id: 5},
+  ];
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>This is third</Text>
+    <View>
+      <FlatList
+        data={data}
+        numColumns={1}
+        renderItem={() => {
+            return (
+              <View style={{
+                width: windowWidth,
+                height: 80,
+                borderColor:'black',
+                borderWidth: 0.5,
+                flexDirection: 'row',
+                alignItems: 'center'
+              }}>
+                <Image style={{
+                  width: 80, 
+                  height:75 , 
+                  backgroundColor: 'white',
+                }} />
+                <View>
+                  <Text style={{
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    padding: 10
+                  }}>ほまれ</Text>
+                  <Text style={{paddingLeft: 15}}>愛知県</Text>
+                </View>
+              </View>
+            );
+          }
+        }
+      />
     </View>
   );
 };
-
 
 const renderScene = SceneMap({
   first: FirstRoute,
@@ -59,15 +118,15 @@ const ProfileComponent = (props) => {
     />
   );
   // TabViewの高さをセット（タブ内部の高さ - プロフィール欄の高さ)
-  let windowHeight = Dimensions.get('window').height;
+  const windowHeight = Dimensions.get('window').height;
   const [dims, setDims] = React.useState(300);
-  // dims = windowHeight - dims;
 
   return (
-    <ScrollView>
-      <View 
+    // <ScrollView>
+    <>
+      <View
         style={{
-          flex: 1,
+          // flex: 1,
           flexDirection: 'row',
           alignItems: 'center',
           padding:10
@@ -96,7 +155,8 @@ const ProfileComponent = (props) => {
         renderTabBar={renderTabBar}
         style={{minHeight: dims}} // heightの設定がないとScrollView内ではTabViewが使えない
       />
-    </ScrollView>
+    </>
+    // </ScrollView>
   );
 };
 
