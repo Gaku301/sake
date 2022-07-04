@@ -2,32 +2,41 @@
  * @returns HomeScreen
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Card, Image } from 'react-native-elements';
+import { API_URL } from '@env';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 Ionicons.loadFont(); // Ioniconsを読み込む時にエラーが出ないように
 
 const HomeScreen = ({ navigation }) => {
-  const user_name = [
-    {id: 1, name:'Asan'},
-    {id: 2, name:'Bsan'},
-    {id: 3, name:'Csan'},
-    {id: 4, name:'Dsan'},
-    {id: 5, name:'Esan'},
-    {id: 6, name:'Fsan'},
-  ];
+  const [posts, setPostData] = useState([]);
+
+  useEffect(() => {
+    // Get post datas
+    fetch(`${API_URL}api/v1/index`)
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.message === 'Success') {
+          setPostData(json.posts);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   // 画面横横幅
   const windowWidth = Dimensions.get('window').width;
 
   return (
     <ScrollView>
       {
-        user_name.map(user => { return (
+        posts.map(post => { return (
           <Card
             title="This is Card"
             containerStyle={{margin: 0, paddingHorizontal:0}}
-            key={user.id}
+            key={post.id}
           >
             {/* User Info */}
             <TouchableOpacity
@@ -38,11 +47,14 @@ const HomeScreen = ({ navigation }) => {
                 paddingHorizontal: 5,
               }}
               onPress={() => navigation.navigate('Profile', {
-                user: user,
+                user: {
+                  id: post.user_id,
+                  name: post.user_name,
+                },
               })}
             >
               <Ionicons name="person-circle-outline" size={35} />
-              <Text style={{marginLeft: 10}}>This is {user.name}</Text>
+              <Text style={{marginLeft: 10}}>{post.user_name}</Text>
             </TouchableOpacity>
             {/* Post Image */}
             <Image
@@ -59,7 +71,7 @@ const HomeScreen = ({ navigation }) => {
               >
                 北秋田
               </Text>
-              <Text>This is Description</Text>
+              <Text>{post.content}</Text>
             </View>
           </Card>
         )})
