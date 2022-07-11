@@ -5,20 +5,20 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Dimensions, TouchableOpacity } from 'react-native';
 import { Card, Image } from 'react-native-elements';
-import { API_URL } from '@env';
+import { API_URL_V1 } from 'react-native-dotenv';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 Ionicons.loadFont(); // Ioniconsを読み込む時にエラーが出ないように
 
 const HomeScreen = ({ navigation }) => {
+  // 全ての投稿を取得する
   const [posts, setPostData] = useState([]);
-
   useEffect(() => {
     // Get post datas
-    fetch(`${API_URL}api/v1/index`)
+    fetch(`${API_URL_V1}/index`)
       .then((response) => response.json())
       .then((json) => {
-        if (json.message === 'Success') {
-          setPostData(json.posts);
+        if (json.status === true) {
+          setPostData(json.result.posts);
         }
       })
       .catch((error) => {
@@ -49,6 +49,7 @@ const HomeScreen = ({ navigation }) => {
               onPress={() => navigation.navigate('Profile', {
                 user: {
                   id: post.user_id,
+                  disp_id: post.user_disp_id,
                   name: post.user_name,
                 },
               })}
@@ -69,7 +70,7 @@ const HomeScreen = ({ navigation }) => {
               <Text
                 style={{fontSize:20, fontWeight: 'bold', paddingTop:10, paddingBottom:5}}
               >
-                北秋田
+                {post.kuramoto}
               </Text>
               <Text>{post.content}</Text>
             </View>

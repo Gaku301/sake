@@ -2,41 +2,12 @@
  * @returns ProfileComponent
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, useWindowDimensions, Dimensions, Image, FlatList } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 
-const FirstRoute = () => {
-  const windowWidth = Dimensions.get('window').width;
-  const imageWidth = Math.floor(windowWidth / 3);
-  const data = [
-    {width: imageWidth, color: 'black'},
-    {width: imageWidth, color: 'white'},
-    {width: imageWidth, color: 'black'},
-    {width: imageWidth, color: 'white'},
-    {width: imageWidth, color: 'white'},
-    {width: imageWidth, color: 'white'},
-    {width: imageWidth, color: 'white'},
-    {width: imageWidth, color: 'white'},
-    {width: imageWidth, color: 'white'},
-  ];
 
-  return (
-    <View>
-      <FlatList
-        data={data}
-        numColumns={3}
-        style={{minHeight: 600}}
-        // Itemをrenderingする
-        renderItem={() => {
-            return <Image style={{width: imageWidth, height: imageWidth, backgroundColor: 'white', borderColor: 'black', borderWidth:0.5}} />
-          }
-        }
-      />
-    </View>
-  );
-};
 
 const SecondRoute = () => {
   return (
@@ -92,24 +63,21 @@ const ThirdRoute = () => {
   );
 };
 
-const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-  third: ThirdRoute,
-});
+
 
 const ProfileComponent = (props) => {
   // user情報
   const userInfo = props.user;
+  const userPosts = props.posts;
   const layout = useWindowDimensions();
 
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
     { key: 'first', title: 'post' },
     { key: 'second', title: 'Drank' },
     { key: 'third', title: 'Want' },
   ]);
-  const renderTabBar = props => (
+  const renderTabBar = (props) => (
     <TabBar
       {...props}
       indicatorStyle={{ backgroundColor: '#222222' }}
@@ -119,7 +87,33 @@ const ProfileComponent = (props) => {
   );
   // TabViewの高さをセット（タブ内部の高さ - プロフィール欄の高さ)
   const windowHeight = Dimensions.get('window').height;
-  const [dims, setDims] = React.useState(300);
+  const [dims, setDims] = useState(300);
+
+  const FirstRoute = () => {
+    const windowWidth = Dimensions.get('window').width;
+    const imageWidth = Math.floor(windowWidth / 3);
+
+    return (
+      <View>
+        <FlatList
+          data={userPosts}
+          numColumns={3}
+          style={{minHeight: 600}}
+          // Itemをrenderingする
+          renderItem={() => {
+              return <Image style={{width: imageWidth, height: imageWidth, backgroundColor: 'white', borderColor: 'black', borderWidth:0.5}} />
+            }
+          }
+        />
+      </View>
+    );
+  };
+
+  const renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute,
+    third: ThirdRoute,
+  });
 
   return (
     // <ScrollView>
@@ -144,7 +138,7 @@ const ProfileComponent = (props) => {
         />
         <View>
           <Text style={{fontSize: 20, fontWeight: 'bold'}}>{userInfo.name}</Text>
-          <Text style={{fontWeight: 'bold', paddingTop:10}}>@{userInfo.id}</Text>
+          <Text style={{fontWeight: 'bold', paddingTop:10}}>@{userInfo.disp_id}</Text>
         </View>
       </View>
       <TabView
